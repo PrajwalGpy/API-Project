@@ -1,4 +1,5 @@
 import { test, expect, request } from "@playwright/test";
+import { AsyncLocalStorage } from "node:async_hooks";
 
 let authToken;
 let bookingid;
@@ -56,5 +57,66 @@ test.describe("Authenticated API Tests", () => {
     const body = await response.json();
     expect(response.ok()).toBeTruthy();
     expect(body.firstname).toBe("Prajwal");
+    expect(response.status()).toBe(200);
+  });
+
+  test("Update the booking info", async ({ request }) => {
+    const response = await request.put(
+      "https://restful-booker.herokuapp.com/booking/" + bookingid,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Cookie: `token=${authToken}`,
+        },
+        data: {
+          firstname: "Prajwal ",
+          lastname: "Poojary",
+          totalprice: 500,
+          depositpaid: false,
+          bookingdates: {
+            checkin: "2026-05-01",
+            checkout: "2026-06-01",
+          },
+          additionalneeds: "Breakfast,wifi",
+        },
+      },
+    );
+    const body = await response.json();
+    expect(response.status()).toBe(200);
+  });
+
+  test("PartialUpdateBooking", async ({ request }) => {
+    const response = await request.patch(
+      "https://restful-booker.herokuapp.com/booking/" + bookingid,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Cookie: `token=${authToken}`,
+        },
+        data: {
+          firstname: "PRAJWAL",
+          totalprice: 700,
+        },
+      },
+    );
+    const body = await response.json();
+    expect(response.ok()).toBeTruthy();
+    expect(response.status()).toBe(200);
+  });
+
+  test("DeleteBooking", async ({ request }) => {
+    const response = await request.delete(
+      "https://restful-booker.herokuapp.com/booking/" + bookingid,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: `token=${authToken}`,
+        },
+      },
+    );
+    expect(response.ok()).toBeTruthy()
+    expect(response.status()).toBe(201)
   });
 });
