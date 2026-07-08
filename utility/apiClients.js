@@ -12,7 +12,7 @@ async function sendRequest(requestContext, method, url, data, token) {
     const requestOptions = { headers };
 
     if (
-        ["put", "post", "get"].includes(method) &&
+        ["put", "post", "patch"].includes(method) &&
         data !== null &&
         data !== undefined
     ) {
@@ -25,7 +25,7 @@ async function sendRequest(requestContext, method, url, data, token) {
 
     return {
         status: response.status(),
-        body: body,
+        data: body,
         headers: response.headers(),
     };
 }
