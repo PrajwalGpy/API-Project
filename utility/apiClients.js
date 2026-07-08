@@ -30,4 +30,8 @@ async function sendRequest(requestContext, method, url, data, token) {
     };
 }
 
-module.exports = { sendRequest }
+export { sendRequest }
+
+
+
+
