@@ -45,7 +45,13 @@ test("completes booking CRUD flow and validates", async ({ request }) => {
     updatedPayload,
     token,
   );
-  console.log(updateResponse.data)
+  console.log(updateResponse.data);
   expect(updateResponse.status).toBe(200);
   expect(updateResponse.data.firstname).toBe("Prajwal");
+
+  const deleteResponse = await deleteBooking(request, bookingId, token);
+  expect(deleteResponse.status).toBe(201);
+
+  const deletedResponse = await getBooking(request, bookingId, token);
+  expect(deletedResponse.status).toBe(404);
 });
