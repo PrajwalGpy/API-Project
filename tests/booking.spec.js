@@ -47,7 +47,6 @@ test.describe("Authenticated API Tests", () => {
 
     const data = await response.json();
     bookingid = data.bookingid;
-    console.log(bookingid);
   });
 
   test("Get Bppking  info", async ({ request }) => {

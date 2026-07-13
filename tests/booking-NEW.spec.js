@@ -45,7 +45,6 @@ test("completes booking CRUD flow and validates", async ({ request }) => {
     updatedPayload,
     token,
   );
-  console.log(updateResponse.data);
   expect(updateResponse.status).toBe(200);
   expect(updateResponse.data.firstname).toBe("Prajwal");
 
