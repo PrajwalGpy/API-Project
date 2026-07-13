@@ -72,7 +72,7 @@ npm --version
 3. Clone the repository and change directory:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/PrajwalGpy/API-Project
 cd API-Project
 ```
 
