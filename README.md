@@ -17,6 +17,30 @@ This is an API validation project, not a production application.
 | Test data | `/test-data` | Stores valid user credentials and booking payload fixtures |
 | Configuration | `playwright.config.js` | Defines base URL, reporter settings, browser projects, and execution behavior |
 
+## Architecture Workflow
+
+The suite follows a layered API wrapper pattern:
+
+1. `Test Case` invokes specific business scenarios.
+2. `API Module` maps each scenario to a reusable endpoint call.
+3. `Utility (Request Helper)` standardizes headers, token handling, and response parsing.
+
+This separation improves clarity and maintainability by keeping test intent separate from request mechanics.
+
+Example flow:
+
+- `tests/booking.spec.js`
+  - calls `createBooking` from `/api/booking.api.js`
+  - passes a payload and optional token
+- `/api/booking.api.js`
+  - delegates the request to `sendRequest` in `/utility/apiClients.js`
+  - returns parsed status, JSON body, and headers
+- `/utility/apiClients.js`
+  - builds common request headers
+  - attaches authorization when provided
+  - sends the HTTP request through Playwright's `request` API
+  - parses the response JSON and returns the normalized result
+
 ## Folder Structure
 
 | Path | Description |
